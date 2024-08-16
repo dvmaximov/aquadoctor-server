@@ -32,4 +32,7 @@ export class User {
   @Column({name: 'role',  length: 10, nullable: false, default: 'user'})
   role?: 'admin' | 'user';
 
+  @Column({name: 'active',  type: 'boolean', default: true})
+  active?: boolean;
+
 }

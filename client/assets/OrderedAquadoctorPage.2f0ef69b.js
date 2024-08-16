@@ -1,0 +1,1 @@
+import{A as a}from"./AquadoctorOrders.5f012653.js";import{d as o,r as s,W as t,a5 as d,a7 as c,a0 as n,j as u}from"./index.aa73692f.js";const m={class:"q-mx-md q-my-sm"},f=o({__name:"OrderedAquadoctorPage",setup(l){const e=s(1);return(r,p)=>(t(),d("section",m,[c("h5",null,n(r.$t("orderedAquadoctor")),1),u(a,{userId:e.value},null,8,["userId"])]))}});export{f as default};
