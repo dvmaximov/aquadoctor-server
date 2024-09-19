@@ -1,1 +1,0 @@
-import{Q as a}from"./QPage.440c9aed.js";import{d as t,W as s,X as o,Y as r,$ as n,a0 as c}from"./index.aa73692f.js";const m=t({__name:"IndexPage",setup(i){return(e,p)=>(s(),o(a,{class:"row items-center justify-evenly"},{default:r(()=>[n(c(e.$t("failed")),1)]),_:1}))}});export{m as default};

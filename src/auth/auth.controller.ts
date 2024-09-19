@@ -14,10 +14,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signUp')
   async signUp(@Body() signUpDto: CreateUserDto): Promise<UserResponse> {
-    //   console.log('/////signUpDto', signUpDto);
-      const res =   await this.authService.signUp(signUpDto);
-    //   console.log('/////res', res);
-      return res;
+    const res =   await this.authService.signUp(signUpDto);
+    return res;
   }
 
   @HttpCode(HttpStatus.OK)

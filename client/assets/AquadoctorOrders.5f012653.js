@@ -1,1 +1,0 @@
-import{_ as r,W as s,a5 as o,a7 as a,a0 as t}from"./index.aa73692f.js";const c={},n={class:"q-mx-md q-my-sm"};function _(e,d){return s(),o("section",n,[a("h5",null,t(e.$t("orders"))+" Aqudoctor",1)])}var i=r(c,[["render",_]]);export{i as A};

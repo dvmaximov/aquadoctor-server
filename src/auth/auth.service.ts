@@ -18,14 +18,14 @@ const adminLinks: AdminLink[] = [
     title: 'aquadoctor',
     caption: '',
     icon: '',
-    link: '/aquadoctor',
+    link: '/musik',
   },
-  {
-    title: 'breathing',
-    caption: '',
-    icon: '',
-    link: '/breathing',
-  },
+  // {
+  //   title: 'breathing',
+  //   caption: '',
+  //   icon: '',
+  //   link: '/breathing',
+  // },
 ]
 
 @Injectable()
@@ -44,11 +44,12 @@ export class AuthService {
     }
     const payload = { sub: user.id, email: user.email, role: user.role };
     const token =  await this.jwtService.signAsync(payload);
-    delete user.password
     let links = [];
     if (user.role == 'admin') {
       links = adminLinks;
     }
+    delete user.password
+    delete user.role;
     const response: UserResponse = { token, user, links }
     return response
   }
@@ -64,6 +65,7 @@ export class AuthService {
     const payload = { sub: created.id, email: created.email };
     const token =  await this.jwtService.signAsync(payload);
     delete created.password;
+    delete created.role;
     return {token, user: created, links:adminLinks}
   }
 
@@ -72,13 +74,14 @@ export class AuthService {
     const userInfo = this.jwtService.decode(jwt, { json: true });
     const finded = await this.usersService.findOne(userInfo.sub);
     if (finded) {
-      delete finded.password;
       if (finded.role == 'admin') {
         finded['links'] = adminLinks;
       }
     } else {
       finded['links'] = [];
     }
+    delete finded.password;
+    delete finded.role;
     return finded
   }
 

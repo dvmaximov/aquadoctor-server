@@ -10,6 +10,9 @@ export class Aquadoctor {
   
   @Column({ name: 'musikId', nullable: false})
   musikId: number;
+  
+  @Column({ name: 'diagnosticId', nullable: false})
+  diagnosticId: number;
 
   @Column({ name: 'name', length: 100, nullable: false })
   name: string;
@@ -36,5 +39,5 @@ export class Aquadoctor {
   color3: string;
   
   @Column({ name: 'active', type: 'boolean', default: false })
-  active?: string;
+  active?: boolean;
 }

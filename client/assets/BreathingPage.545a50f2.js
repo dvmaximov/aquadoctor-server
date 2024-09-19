@@ -1,1 +1,0 @@
-import{d as a,W as t,a5 as s,a7 as n,a0 as o}from"./index.aa73692f.js";const r={class:"q-mx-md q-my-sm"},_=a({__name:"BreathingPage",setup(c){return(e,m)=>(t(),s("section",r,[n("h5",null,o(e.$t("breathing")),1)]))}});export{_ as default};

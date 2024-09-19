@@ -20,7 +20,7 @@ import { Musik } from './musik/entities/musik.entity';
       type: 'sqlite',
       database: 'aquadoctor.sqlite',
       synchronize: true,
-      entities: [User, Diagnostic, Aquadoctor, Musik],
+      entities: [User, Diagnostic, Musik , Aquadoctor],
     }),    
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../', 'client'),
