@@ -3,6 +3,7 @@
 /node_modules
 /client/musik
 /src/auth/constants.ts
+aquadoctor.sqlite
 
 # Logs
 logs
