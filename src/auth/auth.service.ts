@@ -64,9 +64,13 @@ export class AuthService {
     }
     const payload = { sub: created.id, email: created.email };
     const token =  await this.jwtService.signAsync(payload);
+    let links = [];
+    if (newUser.role == 'admin') {
+      links = adminLinks;
+    }
     delete created.password;
     delete created.role;
-    return {token, user: created, links:adminLinks}
+    return {token, user: created, links}
   }
 
   async getAuthUser(request: Request): Promise<User> {

@@ -7,12 +7,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from "multer";
 import { Musik } from './entities/musik.entity';
 import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @Controller('api/musik')
 export class MusikController {
   constructor(private readonly musikService: MusikService) {}
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Post("upload")
   @Roles(['admin'])
   @UseInterceptors(
@@ -65,28 +66,28 @@ export class MusikController {
     return `MusikAdded`;
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Get()
   @Roles(['admin', 'user'])
   findAll() {
     return this.musikService.findAll();
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Get(':id')
   @Roles(['admin', 'user'])
   findOne(@Param('id') id: string) {
     return this.musikService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Post()
   @Roles(['admin'])
   update(@Body() updateMusikDto: UpdateMusikDto) {
     return this.musikService.update(updateMusikDto);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Delete('remove/:id')
   @Roles(['admin'])
   remove(@Param('id') id: string) {

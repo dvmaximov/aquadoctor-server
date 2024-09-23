@@ -27,6 +27,8 @@ export class DiagnosticController {
     return await this.diagnosticService.findAll(params.userId);
   }
 
+  @Roles(['user'])
+  @UseGuards(AuthGuard, RolesGuard)  
   @Get('info/:id')
   findOne(@Param('id') id: string) {
     return this.diagnosticService.findOne(+id);
@@ -37,6 +39,8 @@ export class DiagnosticController {
     return this.diagnosticService.update(+id, updateDiagnosticDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(['user', 'admin'])
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.diagnosticService.remove(+id);

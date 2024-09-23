@@ -19,29 +19,28 @@ export class UsersController {
   //   return this.usersService.insert(createUserDto);
   // }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Get()
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
   findAll(@Req() request: Request): Promise<User[]> {
     return this.usersService.findAll();
   }
-
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Get(':id')
   @Roles(['admin', 'user'])
   findOne(@Param('id') id: string, @Req() request: Request): Promise<User> {
     return this.usersService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Post(':id')
   @Roles(['admin', 'user'])
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard) 
   @Delete(':id')
   @Roles(['admin', 'user'])
   delete(@Param('id') id: string) {
