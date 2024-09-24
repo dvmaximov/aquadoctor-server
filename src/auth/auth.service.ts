@@ -6,6 +6,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AdminLink, UserResponse } from 'src/users/entities/user.response';
 import { User } from 'src/users/entities/user.entity';
 import { Request } from 'express';
+import { ErrorConstants } from 'src/app/entities/error.constants';
 
 const adminLinks: AdminLink[] = [ 
   {
@@ -40,7 +41,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
     const check = await this.crypt.match(password, user?.password);
     if (!check) {
-      throw new HttpException ('BadUserPassword', HttpStatus.BAD_REQUEST);
+      throw new HttpException (ErrorConstants.BadUserPassword, HttpStatus.BAD_REQUEST);
     }
     const payload = { sub: user.id, email: user.email, role: user.role };
     const token =  await this.jwtService.signAsync(payload);
@@ -60,7 +61,7 @@ export class AuthService {
     let created = await this.usersService.findByEmail(newUser.email);
     const check = await this.crypt.match(createUserDto.password, created?.password);
     if (!check) {
-      throw new HttpException ('BadUserPassword', HttpStatus.BAD_REQUEST);
+      throw new HttpException (ErrorConstants.BadUserPassword, HttpStatus.BAD_REQUEST);
     }
     const payload = { sub: created.id, email: created.email };
     const token =  await this.jwtService.signAsync(payload);

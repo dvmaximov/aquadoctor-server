@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Musik } from 'src/musik/entities/musik.entity';
 import { CircleColor } from './entities/circle-color.entity';
 import { Diagnostic } from 'src/diagnostic/entities/diagnostic.entity';
+import { ErrorConstants } from 'src/app/entities/error.constants';
 
 @Injectable()
 export class AquadoctorService {
@@ -23,7 +24,7 @@ export class AquadoctorService {
   async create(createAquadoctorDto: CreateAquadoctorDto) {
     const musik = await this.musikRepository.findOne({where: {id: createAquadoctorDto.musikId}});
     if (!musik) {
-        throw new HttpException ('MusikNotFound', HttpStatus.BAD_REQUEST);
+        throw new HttpException (ErrorConstants.MusikNotFound, HttpStatus.BAD_REQUEST);
     }
 
     const diagnostics = await this.diagnosticRepository.find({where: {userId: createAquadoctorDto.userId}, order: {

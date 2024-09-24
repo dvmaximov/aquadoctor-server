@@ -8,6 +8,7 @@ import { diskStorage } from "multer";
 import { Musik } from './entities/musik.entity';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { ErrorConstants } from 'src/app/entities/error.constants';
 
 @Controller('api/musik')
 export class MusikController {
@@ -27,9 +28,8 @@ export class MusikController {
     }),
   )
   async create(@UploadedFile() file: Express.Multer.File) {
-
     const musik = await this.musikService.findAll();
-
+    
     file.originalname = Buffer.from(file.originalname, "latin1").toString(
       "utf8",
       );
@@ -41,7 +41,7 @@ export class MusikController {
         if (checkmusik.length !== 0) {
           // this.musikService.removeFile(file.path);
           throw new HttpException(
-            "MusikAlreadyExists",
+            ErrorConstants.MusikAlreadyExists,
             
             HttpStatus.CONFLICT,
             );

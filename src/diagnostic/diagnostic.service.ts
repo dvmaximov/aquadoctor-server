@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateDiagnosticDto } from './dto/create-diagnostic.dto';
 import { UpdateDiagnosticDto } from './dto/update-diagnostic.dto';
 import { Diagnostic } from './entities/diagnostic.entity';
+import { ErrorConstants } from 'src/app/entities/error.constants';
 
 @Injectable()
 export class DiagnosticService {
@@ -18,7 +19,7 @@ export class DiagnosticService {
       const diagnostic = this.diagnosticRepository.create(createDiagnosticDto);
       return  await this.diagnosticRepository.save(diagnostic);  
     } else {
-      throw new HttpException ('AlreadySaved', HttpStatus.BAD_REQUEST);
+      throw new HttpException (ErrorConstants.AlreadySaved, HttpStatus.BAD_REQUEST);
     }
   }
 
