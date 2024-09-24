@@ -1,1 +1,0 @@
-import{B as r}from"./BreathingOrder.af8511ec.js";import{d as s,r as t,L as a,X as o,j as n}from"./index.a8004313.js";const c={class:"q-mx-md q-my-sm"},l=s({__name:"BreathingOrderPage",setup(m){const e=t(1);return(d,_)=>(a(),o("section",c,[n(r,{userId:e.value},null,8,["userId"])]))}});export{l as default};
