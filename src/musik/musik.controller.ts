@@ -9,6 +9,7 @@ import { Musik } from './entities/musik.entity';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { ErrorConstants } from 'src/app/entities/error.constants';
+import { CommonResponse } from 'src/app/entities/common.response';
 
 @Controller('api/musik')
 export class MusikController {
@@ -27,8 +28,8 @@ export class MusikController {
       }}),
     }),
   )
-  async create(@UploadedFile() file: Express.Multer.File) {
-    const musik = await this.musikService.findAll();
+  async create(@UploadedFile() file: Express.Multer.File): Promise<CommonResponse> {
+    const musik = (await this.musikService.findAll()).data as Musik[];
     
     file.originalname = Buffer.from(file.originalname, "latin1").toString(
       "utf8",
@@ -62,35 +63,34 @@ export class MusikController {
       created: new Date().getTime(),
     };
 
-    await this.musikService.create(newMusik);
-    return `MusikAdded`;
+    return await this.musikService.create(newMusik);
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Get()
   @Roles(['admin', 'user'])
-  findAll() {
+  findAll(): Promise<CommonResponse> {
     return this.musikService.findAll();
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Get(':id')
   @Roles(['admin', 'user'])
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<CommonResponse> {
     return this.musikService.findOne(+id);
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Post()
   @Roles(['admin'])
-  update(@Body() updateMusikDto: UpdateMusikDto) {
+  update(@Body() updateMusikDto: UpdateMusikDto): Promise<CommonResponse> {
     return this.musikService.update(updateMusikDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Delete('remove/:id')
   @Roles(['admin'])
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<CommonResponse> {
     return this.musikService.remove(+id);
   }
 }

@@ -8,6 +8,7 @@ import { Roles } from 'src/auth/roles.decorator';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { JwtService } from '@nestjs/jwt';
+import { CommonResponse } from 'src/app/entities/common.response';
 
 
 @Controller('api/users')
@@ -23,27 +24,27 @@ export class UsersController {
   @Get()
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
-  findAll(@Req() request: Request): Promise<User[]> {
+  findAll(@Req() request: Request): Promise<CommonResponse> {
     return this.usersService.findAll();
   }
   @UseGuards(AuthGuard, RolesGuard) 
   @Get(':id')
   @Roles(['admin', 'user'])
-  findOne(@Param('id') id: string, @Req() request: Request): Promise<User> {
+  findOne(@Param('id') id: string, @Req() request: Request): Promise<CommonResponse> {
     return this.usersService.findOne(+id);
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Post(':id')
   @Roles(['admin', 'user'])
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<CommonResponse> {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard) 
   @Delete(':id')
   @Roles(['admin', 'user'])
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: string): Promise<CommonResponse> {
     return this.usersService.delete(+id);
   }
 }

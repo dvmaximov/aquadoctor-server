@@ -1,10 +1,10 @@
 import { Body, Controller, Post, HttpCode, HttpStatus, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { UserResponse } from 'src/users/entities/user.response';
 import { RequestUserDto } from 'src/users/dto/request-user.dto';
 import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
+import { CommonResponse } from 'src/app/entities/common.response';
 
 
 @Controller('api/auth')
@@ -13,22 +13,21 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('signUp')
-  async signUp(@Body() signUpDto: CreateUserDto): Promise<UserResponse> {
-    const res =   await this.authService.signUp(signUpDto);
-    return res;
+  async signUp(@Body() signUpDto: CreateUserDto): Promise<CommonResponse> {
+    return await this.authService.signUp(signUpDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('signIn')
-  async signIn(@Body() signInDto: RequestUserDto): Promise<UserResponse> {
-      const res =  await this.authService.signIn(signInDto.email, signInDto.password);
-      return res;
+  async signIn(@Body() signInDto: RequestUserDto): Promise<CommonResponse> {
+    return await this.authService.signIn(signInDto.email, signInDto.password);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('getAuthUser')
-  async getAuthUser(@Req() request: Request): Promise<User | null> {
-    return  await this.authService.getAuthUser(request);
+  async getAuthUser(@Req() request: Request): Promise<CommonResponse> {
+    return await this.authService.getAuthUser(request);
+      
   }
 
 }

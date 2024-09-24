@@ -8,6 +8,7 @@ import { Musik } from 'src/musik/entities/musik.entity';
 import { CircleColor } from './entities/circle-color.entity';
 import { Diagnostic } from 'src/diagnostic/entities/diagnostic.entity';
 import { ErrorConstants } from 'src/app/entities/error.constants';
+import { CommonResponse } from 'src/app/entities/common.response';
 
 @Injectable()
 export class AquadoctorService {
@@ -21,7 +22,7 @@ export class AquadoctorService {
   ) {}
 
 
-  async create(createAquadoctorDto: CreateAquadoctorDto) {
+  async create(createAquadoctorDto: CreateAquadoctorDto): Promise<CommonResponse> {
     const musik = await this.musikRepository.findOne({where: {id: createAquadoctorDto.musikId}});
     if (!musik) {
         throw new HttpException (ErrorConstants.MusikNotFound, HttpStatus.BAD_REQUEST);
@@ -30,13 +31,27 @@ export class AquadoctorService {
     const diagnostics = await this.diagnosticRepository.find({where: {userId: createAquadoctorDto.userId}, order: {
       created: 'ASC',
     }});
+
+    const diagnostic = 1;
+
+    const programms = await this.aquadoctorRepository.find({where: {userId: createAquadoctorDto.userId}, order: {
+      created: 'ASC',
+    }});
+    // if (diagnostics.length !== 0 && programms.length !== 0 ){
+    if (programms.length !== 0 ){
+      if (programms[programms.length - 1].diagnosticId == diagnostic) {
+        throw new HttpException ('LastDiagnosticAlreadyUsed', HttpStatus.BAD_REQUEST);
+      }
+    }
     // if (diagnostics.length === 0) {
     //   throw new HttpException ('LastDiagnosticNotFound', HttpStatus.BAD_REQUEST);
     // }
     // const diagnostic = diagnostics[diagnostics.length - 1];
     
-    const diagnostic = 1;
-    //Проверка дата последней диагностики (например, больше 30 дней)
+
+    
+
+    // Проверка дата последней диагностики (например, больше 30 дней)
     // if (diagnostic.created) {
     //   throw new HttpException ('MustDiagnostic', HttpStatus.BAD_REQUEST);
     // }
@@ -93,22 +108,42 @@ export class AquadoctorService {
 
 
     const aquadoctor = this.aquadoctorRepository.create(newAquadoctor);
-    return await this.aquadoctorRepository.save(aquadoctor);  
+    const res = await this.aquadoctorRepository.save(aquadoctor);  
+    const responce: CommonResponse = {
+      message: 'aquadoctorAdded',
+      data: res,
+    }
+    return responce;
   }
 
-  async findAllbyUser(userId: number) {
-    return await this.aquadoctorRepository.find({where: {userId}, order: {id: 'DESC'}})
+  async findAllbyUser(userId: number): Promise<CommonResponse> {
+    const res = await this.aquadoctorRepository.find({where: {userId}, order: {id: 'DESC'}})
+    const responce: CommonResponse = {
+      message: '',
+      data: res,
+    }
+    return responce;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} aquadoctor`;
+  // findOne(id: number): Promise<CommonResponse> {
+  //   return `This action returns a #${id} aquadoctor`;
+  // }
+
+  async update(updateAquadoctorDto: UpdateAquadoctorDto): Promise<CommonResponse> {
+    const res = await this.aquadoctorRepository.save(updateAquadoctorDto);
+    const responce: CommonResponse = {
+      message: '',
+      data: res,
+    }
+    return responce;
   }
 
-  async update(updateAquadoctorDto: UpdateAquadoctorDto) {
-    return await this.aquadoctorRepository.save(updateAquadoctorDto);
-  }
-
-  async remove(id: number) {
-    return await this.aquadoctorRepository.delete(id);
+  async remove(id: number): Promise<CommonResponse> {
+    const res = await this.aquadoctorRepository.delete(id);
+    const responce: CommonResponse = {
+      message: 'aquadoctorDeleted',
+      data: res,
+    }
+    return responce;
   }
 }

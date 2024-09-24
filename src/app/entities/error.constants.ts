@@ -1,13 +1,13 @@
-export class ErrorConstants {
+export const ErrorConstants = {
   //Auth
-  static BadUserPassword = 'BadUserPassword';
+  BadUserPassword: 'BadUserPassword',
 
-  static MusikNotFound = 'MusikNotFound';
+  MusikNotFound: 'MusikNotFound',
 
-  static AlreadySaved = 'AlreadySaved';
+  AlreadySaved: 'AlreadySaved',
 
-  static MusikAlreadyExists = 'MusikAlreadyExists';
+  MusikAlreadyExists: 'MusikAlreadyExists',
 
-  static EmailAlwaysExists = 'EmailAlwaysExists';
-  static UserNotFound = 'UserNotFound';
+  EmailAlwaysExists: 'EmailAlwaysExists',
+  UserNotFound: 'UserNotFound',
 }
