@@ -41,10 +41,10 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(AuthGuard, RolesGuard) 
-  @Delete(':id')
-  @Roles(['admin', 'user'])
-  delete(@Param('id') id: string): Promise<CommonResponse> {
-    return this.usersService.delete(+id);
-  }
+  // @UseGuards(AuthGuard, RolesGuard) 
+  // @Delete(':id')
+  // @Roles(['admin', 'user'])
+  // delete(@Param('id') id: string): Promise<CommonResponse> {
+  //   return this.usersService.delete(+id);
+  // }
 }

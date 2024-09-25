@@ -9,6 +9,7 @@ import { CircleColor } from './entities/circle-color.entity';
 import { Diagnostic } from 'src/diagnostic/entities/diagnostic.entity';
 import { ErrorConstants } from 'src/app/entities/error.constants';
 import { CommonResponse } from 'src/app/entities/common.response';
+import { SuccessConstants } from 'src/app/entities/success.constants';
 
 @Injectable()
 export class AquadoctorService {
@@ -40,7 +41,7 @@ export class AquadoctorService {
     // if (diagnostics.length !== 0 && programms.length !== 0 ){
     if (programms.length !== 0 ){
       if (programms[programms.length - 1].diagnosticId == diagnostic) {
-        throw new HttpException ('LastDiagnosticAlreadyUsed', HttpStatus.BAD_REQUEST);
+        throw new HttpException (ErrorConstants.LastDiagnosticAlreadyUsed, HttpStatus.BAD_REQUEST);
       }
     }
     // if (diagnostics.length === 0) {
@@ -110,7 +111,7 @@ export class AquadoctorService {
     const aquadoctor = this.aquadoctorRepository.create(newAquadoctor);
     const res = await this.aquadoctorRepository.save(aquadoctor);  
     const responce: CommonResponse = {
-      message: 'aquadoctorAdded',
+      message: SuccessConstants.AquadoctorAdded,
       data: res,
     }
     return responce;
@@ -132,7 +133,7 @@ export class AquadoctorService {
   async update(updateAquadoctorDto: UpdateAquadoctorDto): Promise<CommonResponse> {
     const res = await this.aquadoctorRepository.save(updateAquadoctorDto);
     const responce: CommonResponse = {
-      message: '',
+      message: SuccessConstants.AquadoctorUpdated,
       data: res,
     }
     return responce;
@@ -141,7 +142,7 @@ export class AquadoctorService {
   async remove(id: number): Promise<CommonResponse> {
     const res = await this.aquadoctorRepository.delete(id);
     const responce: CommonResponse = {
-      message: 'aquadoctorDeleted',
+      message: SuccessConstants.AquadoctorDeleted,
       data: res,
     }
     return responce;

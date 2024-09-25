@@ -73,15 +73,15 @@ export class UsersService {
     return responce;        
   }
 
-  async delete(id: number): Promise<CommonResponse> {
-    const res = await this.userRepository.delete(id);
-    if (res.affected === 0) {
-      throw new NotFoundException(`A user "${id}" was not found`);
-    }
-    const responce: CommonResponse = {
-      message: 'successUserDelete',
-      data: res,
-    }
-    return responce;   
-  }
+  // async delete(id: number): Promise<CommonResponse> {
+  //   const res = await this.userRepository.delete(id);
+  //   if (res.affected === 0) {
+  //     throw new NotFoundException(`A user "${id}" was not found`);
+  //   }
+  //   const responce: CommonResponse = {
+  //     message: 'successUserDelete',
+  //     data: res,
+  //   }
+  //   return responce;   
+  // }
 }

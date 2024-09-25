@@ -6,6 +6,7 @@ import { Musik } from './entities/musik.entity';
 import { Repository } from 'typeorm';
 import { unlink } from "node:fs/promises";
 import { CommonResponse } from 'src/app/entities/common.response';
+import { SuccessConstants } from 'src/app/entities/success.constants';
 
 @Injectable()
 export class MusikService {
@@ -24,7 +25,7 @@ export class MusikService {
 
     const res = await this.musikRepository.save(user);  
     const responce: CommonResponse = {
-      message: 'MusikAdded',
+      message: SuccessConstants.MusikAdded,
       data: res,
     }
     return responce; 

@@ -18,12 +18,12 @@ export class AquadoctorController {
     return this.aquadoctorService.create(createAquadoctorDto);
   }
 
-  // @UseGuards(AuthGuard, RolesGuard)
-  // @Post()
-  // @Roles(['admin'])
-  // update(@Body() createAquadoctorDto: CreateAquadoctorDto): Promise<CommonResponse> {
-  //   return this.aquadoctorService.update(createAquadoctorDto);
-  // }
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post()
+  @Roles(['admin'])
+  update(@Body() createAquadoctorDto: CreateAquadoctorDto): Promise<CommonResponse> {
+    return this.aquadoctorService.update(createAquadoctorDto);
+  }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Get(':userId')
