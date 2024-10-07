@@ -3,9 +3,13 @@ export const SuccessConstants = {
     BadUserPassword: 'BadUserPassword',
   
     //Aquqdoctor
-    AquadoctorAdded: 'aquadoctorAdded',
-    AquadoctorDeleted: 'aquadoctorDeleted',
+    AquadoctorAdded: 'AquadoctorAdded',
+    AquadoctorDeleted: 'AquadoctorDeleted',
     AquadoctorUpdated: 'AquadoctorUpdated',
+
+    //Diagnostic
+    DiagnosticAdded: 'DiagnosticAdded',
+    DiagnosticDeleted: 'DiagnosticDeleted',
 
     //Musik
     MusikAdded: 'MusikAdded',

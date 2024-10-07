@@ -1,1 +1,0 @@
-import{_ as r,L as s,X as t,$ as a,R as n}from"./index.de9dee39.js";const o={},c={class:"q-mx-md q-my-sm"};function _(e,i){return s(),t("section",c,[a("h5",null,n(e.$t("orders"))+" Breathing",1)])}var d=r(o,[["render",_]]);export{d as B};

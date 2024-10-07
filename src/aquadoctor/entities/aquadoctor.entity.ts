@@ -13,6 +13,9 @@ export class Aquadoctor {
   
   @Column({ name: 'diagnosticId', nullable: false})
   diagnosticId: number;
+  
+  @Column({ name: 'userDiagnosticId', nullable: false})
+  userDiagnosticId: number;
 
   @Column({ name: 'name', length: 100, nullable: false })
   name: string;

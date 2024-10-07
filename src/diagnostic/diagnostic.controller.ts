@@ -13,20 +13,27 @@ export class DiagnosticController {
   constructor(private readonly diagnosticService: DiagnosticService) {}
 
   // @Roles(['user', 'admin'])
-  @Roles(['user'])
+  @Roles(['user', 'admin'])
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async create(@Body() createDiagnosticDto: CreateDiagnosticDto): Promise<CommonResponse> {
-    console.log(createDiagnosticDto);
     return await this.diagnosticService.create(createDiagnosticDto);
   }
 
-  @Roles(['user', 'admin'])
   @UseGuards(AuthGuard, RolesGuard)
   @Get(':userId')
+  @Roles(['user', 'admin'])
   async findAll(@Param() params: any): Promise<CommonResponse> {
     return await this.diagnosticService.findAll(params.userId);
   }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Delete('remove/:id')
+  @Roles(['admin', 'user'])
+  remove(@Param('id') id: string): Promise<CommonResponse> {
+    return this.diagnosticService.remove(+id);
+  }
+
 
   // @Roles(['user'])
   // @UseGuards(AuthGuard, RolesGuard)  

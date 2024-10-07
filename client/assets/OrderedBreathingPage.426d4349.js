@@ -1,0 +1,1 @@
+import{Q as a}from"./QPage.fa259e33.js";import{d as r,L as t,M as s,N as o,$ as n,R as m}from"./index.907ec7d0.js";const l=r({__name:"OrderedBreathingPage",setup(d){return(e,c)=>(t(),s(a,{class:"q-mx-md q-my-sm"},{default:o(()=>[n("h5",null,m(e.$t("orderedBreathing")),1)]),_:1}))}});export{l as default};

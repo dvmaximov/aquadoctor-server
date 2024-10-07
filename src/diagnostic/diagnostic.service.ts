@@ -6,6 +6,7 @@ import { UpdateDiagnosticDto } from './dto/update-diagnostic.dto';
 import { Diagnostic } from './entities/diagnostic.entity';
 import { ErrorConstants } from 'src/app/entities/error.constants';
 import { CommonResponse } from 'src/app/entities/common.response';
+import { SuccessConstants } from 'src/app/entities/success.constants';
 
 @Injectable()
 export class DiagnosticService {
@@ -20,12 +21,12 @@ export class DiagnosticService {
       const diagnostic = this.diagnosticRepository.create(createDiagnosticDto);
       const res =  await this.diagnosticRepository.save(diagnostic);
       const responce: CommonResponse = {
-        message: '',
+        message: 'DiagnosticAdded',
         data: res,
       }
       return responce;
     } else {
-      throw new HttpException (ErrorConstants.AlreadySaved, HttpStatus.BAD_REQUEST);
+      throw new HttpException (ErrorConstants.DiagnosticAlreadySaved, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -37,6 +38,16 @@ export class DiagnosticService {
     }
     return responce;
   }
+
+  async remove(id: number): Promise<CommonResponse> {
+    const res = await this.diagnosticRepository.delete(id);
+    const responce: CommonResponse = {
+      message: SuccessConstants.DiagnosticDeleted,
+      data: res,
+    }
+    return responce;
+  }
+
 
   // findOne(id: number): Promise<CommonResponse> {
   //   return `This action returns a #${id} diagnostic`;

@@ -5,13 +5,15 @@ export const ErrorConstants = {
   //Aquqdoctor
   MusikNotFound: 'MusikNotFound',
   LastDiagnosticAlreadyUsed: 'LastDiagnosticAlreadyUsed',
-  AquadoctorAdded: 'aquadoctorAdded',
   MustDiagnostic: 'MustDiagnostic',
-
-  AlreadySaved: 'AlreadySaved',
-
+  
+  //Diagnostic
+  DiagnosticAlreadySaved: 'DiagnosticAlreadySaved',
+  
+  //Musik for Aquadoctor
   MusikAlreadyExists: 'MusikAlreadyExists',
-
+  
+  //User
   EmailAlwaysExists: 'EmailAlwaysExists',
   UserNotFound: 'UserNotFound',
 }

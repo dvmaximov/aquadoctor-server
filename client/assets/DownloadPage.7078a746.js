@@ -1,1 +1,0 @@
-import{Q as e}from"./QPage.9e21a04d.js";import{d as o,L as s,M as t,N as n,$ as r,R as m}from"./index.de9dee39.js";const _=o({__name:"DownloadPage",setup(l){return(a,c)=>(s(),t(e,{class:"q-mx-md q-my-sm"},{default:n(()=>[r("h5",null,m(a.$t("download")),1)]),_:1}))}});export{_ as default};

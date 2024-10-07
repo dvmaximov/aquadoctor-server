@@ -97,6 +97,7 @@ export class AquadoctorService {
     newAquadoctor.musikId = createAquadoctorDto.musikId;
     // newAquadoctor.diagnosticId = diagnostic.id;
     newAquadoctor.diagnosticId = diagnostic;
+    newAquadoctor.userDiagnosticId = diagnostic;
     newAquadoctor.name = musik.name;
     newAquadoctor.musikPath = musik.path;
     newAquadoctor.created = timestamp;
