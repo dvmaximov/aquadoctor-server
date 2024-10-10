@@ -22,9 +22,42 @@ export class AquadoctorService {
     private readonly diagnosticRepository: Repository<Diagnostic>,
   ) {}
 
+  async updateDeiagnosticMetaData(diagnosticId: number, aquadoctorId: number, aquadoctorName: String ): Promise<void> {
+    const diagnostic = await this.diagnosticRepository.findOne({where: {id: diagnosticId}});
+    if (!diagnostic) return;
+
+    const meta = JSON.parse(diagnostic.metaData);
+
+    if (meta['aquadoctor'] == null) {
+      meta['aquadoctor'] = {};
+    }
+
+    const id = aquadoctorId.toString();
+    meta['aquadoctor'][id] = aquadoctorName;
+    diagnostic.metaData = JSON.stringify(meta);
+    await this.diagnosticRepository.save(diagnostic);
+  }
+
+  async deleteDeiagnosticMetaData(aquadoctorId: number ): Promise<void> {
+    const aquadoctor = await this.aquadoctorRepository.findOne({where: {id: aquadoctorId}});
+    if (!aquadoctor) return;
+    const diagnostic = await this.diagnosticRepository.findOne({where: {id: aquadoctor.diagnosticId}});
+    if (!diagnostic) return;
+
+    const meta = JSON.parse(diagnostic.metaData);
+
+    if (meta['aquadoctor'] == null) return;
+
+    const id = aquadoctorId.toString();
+    
+    if (meta['aquadoctor'][id] == null) return;
+    delete meta['aquadoctor'][id];
+    diagnostic.metaData = JSON.stringify(meta);
+    await this.diagnosticRepository.save(diagnostic);
+  }
 
   async create(createAquadoctorDto: CreateAquadoctorDto): Promise<CommonResponse> {
-    const musik = await this.musikRepository.findOne({where: {id: createAquadoctorDto.musikId}});
+    let musik = await this.musikRepository.findOne({where: {id: createAquadoctorDto.musikId}});
     if (!musik) {
         throw new HttpException (ErrorConstants.MusikNotFound, HttpStatus.BAD_REQUEST);
     }
@@ -33,24 +66,40 @@ export class AquadoctorService {
       created: 'ASC',
     }});
 
-    const diagnostic = 1;
+    let lastDiagnosticId = 0;
+    let lastUserDiagnosticId = 0;
+    let lastDiagnosticCreated = 0;
 
-    const programms = await this.aquadoctorRepository.find({where: {userId: createAquadoctorDto.userId}, order: {
-      created: 'ASC',
-    }});
-    // if (diagnostics.length !== 0 && programms.length !== 0 ){
+    if (diagnostics.length !== 0) {
+      lastDiagnosticId = diagnostics[diagnostics.length - 1].id;
+      lastDiagnosticCreated = diagnostics[diagnostics.length - 1].created;
+      lastUserDiagnosticId = diagnostics[diagnostics.length - 1].diagnosticId;
+    } else {
+      throw new HttpException ('LastDiagnosticNotFound', HttpStatus.BAD_REQUEST);
+    }
+
+    const programms = await this.aquadoctorRepository.find(
+      {
+        where: {
+          userId: createAquadoctorDto.userId, 
+          musikId: createAquadoctorDto.musikId,
+        }, 
+        order: {
+          created: 'ASC',
+        }
+      });
+
     if (programms.length !== 0 ){
-      if (programms[programms.length - 1].diagnosticId == diagnostic) {
+      if (programms[programms.length - 1].diagnosticId == lastDiagnosticId) {
         throw new HttpException (ErrorConstants.LastDiagnosticAlreadyUsed, HttpStatus.BAD_REQUEST);
       }
     }
-    // if (diagnostics.length === 0) {
-    //   throw new HttpException ('LastDiagnosticNotFound', HttpStatus.BAD_REQUEST);
-    // }
-    // const diagnostic = diagnostics[diagnostics.length - 1];
-    
 
-    
+    const meta = JSON.stringify({
+      'diagnosticId': lastDiagnosticId,
+      'diagnosticCreated': lastDiagnosticCreated,
+      'userDiagnosticId': lastUserDiagnosticId,
+    });
 
     // Проверка дата последней диагностики (например, больше 30 дней)
     // if (diagnostic.created) {
@@ -90,23 +139,25 @@ export class AquadoctorService {
     color3.downTime =  5;
     color3.speed =  10;
 
-    const timestamp = new Date().getTime();
+    const now = new Date();
+    const timestamp = now.getTime();
+    const endTimestamp = now.setDate( now.getDate() + 1);
 
     const newAquadoctor = new Aquadoctor();
     newAquadoctor.userId = createAquadoctorDto.userId;
     newAquadoctor.musikId = createAquadoctorDto.musikId;
-    // newAquadoctor.diagnosticId = diagnostic.id;
-    newAquadoctor.diagnosticId = diagnostic;
-    newAquadoctor.userDiagnosticId = diagnostic;
+    newAquadoctor.diagnosticId = lastDiagnosticId;
+    newAquadoctor.userDiagnosticId = lastUserDiagnosticId;
     newAquadoctor.name = musik.name;
     newAquadoctor.musikPath = musik.path;
     newAquadoctor.created = timestamp;
     newAquadoctor.startDate = timestamp;
-    newAquadoctor.endDate = timestamp;
+    newAquadoctor.endDate = endTimestamp;
     newAquadoctor.active = false;
     newAquadoctor.color1 = color1.toJson();
     newAquadoctor.color2 = color2.toJson();
     newAquadoctor.color3 = color3.toJson();
+    newAquadoctor.metaData = meta;
 
 
     const aquadoctor = this.aquadoctorRepository.create(newAquadoctor);
@@ -115,6 +166,7 @@ export class AquadoctorService {
       message: SuccessConstants.AquadoctorAdded,
       data: res,
     }
+    await this.updateDeiagnosticMetaData(lastDiagnosticId, res.id, res.name);
     return responce;
   }
 
@@ -127,9 +179,6 @@ export class AquadoctorService {
     return responce;
   }
 
-  // findOne(id: number): Promise<CommonResponse> {
-  //   return `This action returns a #${id} aquadoctor`;
-  // }
 
   async update(updateAquadoctorDto: UpdateAquadoctorDto): Promise<CommonResponse> {
     const res = await this.aquadoctorRepository.save(updateAquadoctorDto);
@@ -141,6 +190,7 @@ export class AquadoctorService {
   }
 
   async remove(id: number): Promise<CommonResponse> {
+    await this.deleteDeiagnosticMetaData(id);
     const res = await this.aquadoctorRepository.delete(id);
     const responce: CommonResponse = {
       message: SuccessConstants.AquadoctorDeleted,

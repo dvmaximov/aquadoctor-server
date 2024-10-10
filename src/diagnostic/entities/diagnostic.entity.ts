@@ -55,4 +55,7 @@ export class Diagnostic {
   
   @Column({ name: 'dadMMHg', nullable: false, default: 0 })
   dadMMHg: number;  
+
+  @Column("text", { name: 'metaData', default: '{}' })
+  metaData: string;  
 }

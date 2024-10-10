@@ -43,4 +43,7 @@ export class Aquadoctor {
   
   @Column({ name: 'active', type: 'boolean', default: false })
   active?: boolean;
+
+  @Column({ name: 'metaData', type: 'text', default: '{}' })
+  metaData: string;  
 }

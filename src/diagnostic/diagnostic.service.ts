@@ -20,11 +20,11 @@ export class DiagnosticService {
     if (check.length == 0 || (check.length > 0 && createDiagnosticDto.created > check[0].created)) {
       const diagnostic = this.diagnosticRepository.create(createDiagnosticDto);
       const res =  await this.diagnosticRepository.save(diagnostic);
-      const responce: CommonResponse = {
+      const response: CommonResponse = {
         message: 'DiagnosticAdded',
         data: res,
       }
-      return responce;
+      return response;
     } else {
       throw new HttpException (ErrorConstants.DiagnosticAlreadySaved, HttpStatus.BAD_REQUEST);
     }
@@ -32,20 +32,20 @@ export class DiagnosticService {
 
   async findAll(userId: number): Promise<CommonResponse> {
     const res = await this.diagnosticRepository.find({where: {userId}});
-    const responce: CommonResponse = {
+    const response: CommonResponse = {
       message: '',
       data: res,
     }
-    return responce;
+    return response;
   }
 
   async remove(id: number): Promise<CommonResponse> {
     const res = await this.diagnosticRepository.delete(id);
-    const responce: CommonResponse = {
+    const response: CommonResponse = {
       message: SuccessConstants.DiagnosticDeleted,
       data: res,
     }
-    return responce;
+    return response;
   }
 
 
